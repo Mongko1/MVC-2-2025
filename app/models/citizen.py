@@ -1,5 +1,6 @@
 from enum import Enum
-from sqlmodel import SQLModel, Field
+from typing import List
+from sqlmodel import SQLModel, Field, Relationship
 from datetime import datetime
 
 class CitizenType(str, Enum):
@@ -15,3 +16,5 @@ class Citizen(SQLModel, table=True):
     health_status: str
     registration_date: datetime
     citizen_type: CitizenType
+
+    assignments: List["Assignment"] = Relationship(back_populates="citizen")
