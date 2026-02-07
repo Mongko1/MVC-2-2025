@@ -17,3 +17,16 @@ class ShelterRepo():
             .group_by(Shelter.id)
         )
         return result.all()
+    
+    async def get_by_id(db: AsyncSession, shelter_id: str):
+        result = await db.exec(
+            select(
+                Shelter,
+                func.count(Assignment.id).label("current_population")
+            )
+            .where(Shelter.id == shelter_id)
+            .join(Assignment, isouter=True)
+            .group_by(Shelter.id)
+        )
+
+        return result.one_or_none()

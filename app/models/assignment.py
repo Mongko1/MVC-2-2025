@@ -11,6 +11,3 @@ class Assignment(SQLModel, table=True):
     citizen_id: str = Field(foreign_key="citizens.id")
     shelter_id: str = Field(foreign_key="shelters.id")
     check_in_date: datetime
-
-    citizen: Citizen | None = Relationship(back_populates="assignments")
-    shelter: Shelter | None = Relationship(back_populates="assignments")

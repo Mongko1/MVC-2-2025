@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, Query
 from typing import Annotated, List
 
-from app.controllers.citizen.schema import CitizenReportResponse, CitizenResponse, GetCitizenParams
+from fastapi.responses import JSONResponse
+
+from app.controllers.citizen.schema import CitizenReportResponse, CitizenResponse, GetCitizenParams, RegisterCitizenParams
 from app.repository.citizen_repo import CitizenRepo
 
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -23,8 +25,27 @@ async def get_all_citizen_reports(db: Annotated[AsyncSession, Depends(get_sessio
     return [
         CitizenReportResponse(
             citizen_id=citizen.id,
-            shelter_id=shelter.id,
-            check_in_date=assignment.check_in_date,
+            shelter_id=shelter.id if shelter else None,
+            check_in_date=assignment.check_in_date if assignment else None,
         )
         for citizen, shelter, assignment in reports
     ]
+
+@router.post("/register")
+async def register_citizen(
+    db: Annotated[AsyncSession, Depends(get_session)],
+    request: Annotated[RegisterCitizenParams, Query()]
+    ):
+    citizen = await CitizenRepo.get_by_id(db, request.citizen_id)
+    if citizen:
+        return JSONResponse(content="This citizen already registerd to the system", status_code=200)
+    
+    await CitizenRepo.create(
+        db,
+        request.citizen_id,
+        request.age,
+        request.health_status,
+        request.citizen_type
+    )
+
+    return JSONResponse(content="Citizen registration success.", status_code=200)
