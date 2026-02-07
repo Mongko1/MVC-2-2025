@@ -33,3 +33,20 @@ API Docs:
 ```
 http://localhost:8000/docs
 ```
+
+## Access the Database
+You can connect to the PostgreSQL database using any database client
+(e.g., DBeaver, pgAdmin, etc.).
+
+### 1. Make sure containers are running
+```bash
+docker compose up
+```
+
+### 2. Use the following connection settings
+- Host: `localhost`
+- Port: `5432`
+- Database: `mvc-db`
+- Username: `postgres`
+- Password: `postgres`
+- SSL: Disabled (default for local Docker setup)
