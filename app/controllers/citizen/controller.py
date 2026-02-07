@@ -11,6 +11,7 @@ from app.database import get_session
 
 router = APIRouter(prefix="/citizens")
 
+# Route for get all citizen
 @router.get("", response_model=List[CitizenResponse])
 async def get_all_citizens(
     db: Annotated[AsyncSession, Depends(get_session)],
@@ -18,6 +19,7 @@ async def get_all_citizens(
     ):
     return await CitizenRepo.get_all(db, request.type)
 
+# Route for get all citizen with report that which one have allocate which one not
 @router.get("/report", response_model=List[CitizenReportResponse])
 async def get_all_citizen_reports(db: Annotated[AsyncSession, Depends(get_session)]):
     reports = await CitizenRepo.get_all_report(db)
@@ -31,15 +33,18 @@ async def get_all_citizen_reports(db: Annotated[AsyncSession, Depends(get_sessio
         for citizen, shelter, assignment in reports
     ]
 
+# Route to add citizen data to the database
 @router.post("/register")
 async def register_citizen(
     db: Annotated[AsyncSession, Depends(get_session)],
     request: Annotated[RegisterCitizenParams, Query()]
     ):
+    # check that user already register or not
     citizen = await CitizenRepo.get_by_id(db, request.citizen_id)
     if citizen:
         return JSONResponse(content="This citizen already registerd to the system", status_code=200)
     
+    # call function to create citizen
     await CitizenRepo.create(
         db,
         request.citizen_id,

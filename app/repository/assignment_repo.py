@@ -12,6 +12,7 @@ from app.models.citizen import Citizen, CitizenType, HealthStatus
 from app.models.shelter import Shelter
 
 class AssignmentRepo():
+    # Add assignment to database
     async def create(
             db: AsyncSession,
             citizen_id: str,
@@ -29,6 +30,7 @@ class AssignmentRepo():
         await db.refresh(assignment)
         return assignment
     
+    # Query assignment by citizen id
     async def get_by_citizen_id(
             db: AsyncSession,
             citizen_id: str,

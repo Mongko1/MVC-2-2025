@@ -10,6 +10,7 @@ from app.models.citizen import Citizen, CitizenType, HealthStatus
 from app.models.shelter import Shelter
 
 class CitizenRepo():
+    # Add citizen to database
     async def create(
             db: AsyncSession,
             citizen_id: str,
@@ -30,6 +31,7 @@ class CitizenRepo():
         await db.refresh(citizen)
         return citizen
     
+    # Query all citizen with filter of citizen type
     async def get_all(db: AsyncSession, citizen_type: CitizenType) -> List[Citizen]:
         statement = select(Citizen)
 
@@ -41,6 +43,7 @@ class CitizenRepo():
         )
         return result.all()
     
+    # Query all citizen with report of allocation data
     async def get_all_report(db: AsyncSession):
         result = await db.exec(
             select(Citizen, Shelter, Assignment)
@@ -49,6 +52,7 @@ class CitizenRepo():
         )
         return result.all()
     
+    # Query citizen by id
     async def get_by_id(db: AsyncSession, citizen_id: str) -> Citizen:
         result = await db.exec(
             select(Citizen)

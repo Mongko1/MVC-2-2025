@@ -8,9 +8,11 @@ from app.controllers.shelter import controller as shelter_controller
 
 app = FastAPI()
 
+# Add router to app
 app.include_router(citizen_controller.router, tags=["Citizen Management"])
 app.include_router(shelter_controller.router, tags=["Shelter Management"])
 
+# Cores setting
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

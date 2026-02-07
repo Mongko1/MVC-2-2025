@@ -7,6 +7,7 @@ from app.models.shelter import Shelter
 from app.models.citizen import Citizen
 from app.models.assignment import Assignment
 
+# PostgreSQL Setting
 POSTGRES_USER = "postgres"
 POSTGRES_PASSWORD = "postgres"
 POSTGRES_DB = "mvc-db"
@@ -21,10 +22,12 @@ DATABASE_URL = (
 engine = create_async_engine(DATABASE_URL, echo=False)
 async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
+# Create database table
 async def init_db():
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
 
+# Dependency for an async SQLAlchemy session for FastAPI, automatically committing on success, rolling back on error, and always closing the session.
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session() as session:
         try:

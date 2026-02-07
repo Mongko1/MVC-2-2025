@@ -1,0 +1,441 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/citizens": {
+      "get": {
+        "tags": [
+          "Citizen Management"
+        ],
+        "summary": "Get All Citizens",
+        "operationId": "get_all_citizens_citizens_get",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "General",
+                    "Vulnerable",
+                    "VIP"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CitizenResponse"
+                  },
+                  "title": "Response Get All Citizens Citizens Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizens/report": {
+      "get": {
+        "tags": [
+          "Citizen Management"
+        ],
+        "summary": "Get All Citizen Reports",
+        "operationId": "get_all_citizen_reports_citizens_report_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CitizenReportResponse"
+                  },
+                  "type": "array",
+                  "title": "Response Get All Citizen Reports Citizens Report Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/citizens/register": {
+      "post": {
+        "tags": [
+          "Citizen Management"
+        ],
+        "summary": "Register Citizen",
+        "operationId": "register_citizen_citizens_register_post",
+        "parameters": [
+          {
+            "name": "citizen_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Citizen Id"
+            }
+          },
+          {
+            "name": "age",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Age"
+            }
+          },
+          {
+            "name": "health_status",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "Normal",
+                "Risk"
+              ],
+              "type": "string",
+              "title": "Health Status"
+            }
+          },
+          {
+            "name": "citizen_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "General",
+                "Vulnerable",
+                "VIP"
+              ],
+              "type": "string",
+              "title": "Citizen Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shetlers": {
+      "get": {
+        "tags": [
+          "Shelter Management"
+        ],
+        "summary": "Get All Shelters",
+        "operationId": "get_all_shelters_shetlers_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ShelterResponse"
+                  },
+                  "type": "array",
+                  "title": "Response Get All Shelters Shetlers Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shetlers/allocate": {
+      "post": {
+        "tags": [
+          "Shelter Management"
+        ],
+        "summary": "Allocate Shelter",
+        "operationId": "allocate_shelter_shetlers_allocate_post",
+        "parameters": [
+          {
+            "name": "citizen_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Citizen Id"
+            }
+          },
+          {
+            "name": "shelter_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Shelter Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CitizenReportResponse": {
+        "properties": {
+          "citizen_id": {
+            "type": "string",
+            "title": "Citizen Id"
+          },
+          "shelter_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shelter Id"
+          },
+          "check_in_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Check In Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "citizen_id"
+        ],
+        "title": "CitizenReportResponse"
+      },
+      "CitizenResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "age": {
+            "type": "integer",
+            "title": "Age"
+          },
+          "health_status": {
+            "$ref": "#/components/schemas/HealthStatus"
+          },
+          "registration_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Registration Date"
+          },
+          "citizen_type": {
+            "$ref": "#/components/schemas/CitizenType"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "age",
+          "health_status",
+          "registration_date",
+          "citizen_type"
+        ],
+        "title": "CitizenResponse"
+      },
+      "CitizenType": {
+        "type": "string",
+        "enum": [
+          "General",
+          "Vulnerable",
+          "VIP"
+        ],
+        "title": "CitizenType"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthStatus": {
+        "type": "string",
+        "enum": [
+          "Normal",
+          "Risk"
+        ],
+        "title": "HealthStatus"
+      },
+      "RiskLevel": {
+        "type": "string",
+        "enum": [
+          "Low",
+          "High"
+        ],
+        "title": "RiskLevel"
+      },
+      "ShelterResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "capacity": {
+            "type": "integer",
+            "title": "Capacity"
+          },
+          "current_population": {
+            "type": "integer",
+            "title": "Current Population"
+          },
+          "risk_level": {
+            "$ref": "#/components/schemas/RiskLevel"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "capacity",
+          "current_population",
+          "risk_level"
+        ],
+        "title": "ShelterResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

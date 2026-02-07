@@ -7,6 +7,7 @@ from app.models.assignment import Assignment
 from app.models.shelter import Shelter
 
 class ShelterRepo():
+    # Query all shelter with current population
     async def get_all(db: AsyncSession) -> List[Shelter]:        
         result = await db.exec(
             select(
@@ -18,6 +19,7 @@ class ShelterRepo():
         )
         return result.all()
     
+    # Query shelter by id
     async def get_by_id(db: AsyncSession, shelter_id: str):
         result = await db.exec(
             select(
