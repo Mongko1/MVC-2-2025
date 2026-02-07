@@ -3,6 +3,10 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from typing import AsyncGenerator
 
+from app.models.shelter import Shelter
+from app.models.citizen import Citizen
+from app.models.assignment import Assignment
+
 POSTGRES_USER = "postgres"
 POSTGRES_PASSWORD = "postgres"
 POSTGRES_DB = "mvc-db"

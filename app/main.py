@@ -19,4 +19,4 @@ async def on_startup():
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to Rumor Tracking System."}
+    return {"message": "Welcome to Emergency Shelter Allocation System."}
